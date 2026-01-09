@@ -10,8 +10,8 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "github-actions-sta"
-    key     = "github-actions-sta-dev.tfstate"
+    bucket  = "terraform-backend-ecs-s"
+    key     = "terraform-backend-ecs-s.tfstate"
     region  = "ap-northeast-1"
     profile = "terraform"
   }
