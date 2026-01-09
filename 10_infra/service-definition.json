@@ -1,0 +1,42 @@
+{
+  "serviceName": "my-app-frontend-service",
+  "cluster": "arn:aws:ecs:ap-northeast-1:830732306904:cluster/my-app-cluster",
+  "taskDefinition": "my-app-frontend:1",
+  "desiredCount": 1,
+  "launchType": "FARGATE",
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": [
+        "subnet-01cd89badcdad8142",
+        "subnet-0ff608ca26b2a2a7f"
+      ],
+      "securityGroups": [
+        "sg-03f5cf88619c2863f"
+      ],
+      "assignPublicIp": "ENABLED"
+    }
+  },
+  "deploymentController": {
+    "type": "ECS"
+  },
+  "deploymentConfiguration": {
+    "strategy": "BLUE_GREEN",
+    "maximumPercent": 200,
+    "minimumHealthyPercent": 100,
+    "bakeTimeInMinutes": 2,
+    "lifecycleHooks": []
+  },
+  "loadBalancers": [
+    {
+      "targetGroupArn": "arn:aws:elasticloadbalancing:ap-northeast-1:830732306904:targetgroup/my-app-frontend-tg-1/1e7a1f39984f0f1c",
+      "containerName": "frontend",
+      "containerPort": 80,
+      "advancedConfiguration": {
+        "alternateTargetGroupArn": "arn:aws:elasticloadbalancing:ap-northeast-1:830732306904:targetgroup/my-app-frontend-tg-2/a9aef4f191a4fb16",
+        "productionListenerRule": "arn:aws:elasticloadbalancing:ap-northeast-1:830732306904:listener-rule/app/my-app-alb/47a31cb3a67c7c1f/b60c28db4622b7d9/b9ec78ceb1eac4c4",
+        "testListenerRule": "arn:aws:elasticloadbalancing:ap-northeast-1:830732306904:listener-rule/app/my-app-alb/47a31cb3a67c7c1f/c0120520c3e7326a/6ec0edcaf76117dc",
+        "roleArn": "arn:aws:iam::830732306904:role/ecsInfrastructureRoleForLoadBalancers"
+      }
+    }
+  ]
+}
